@@ -41,7 +41,7 @@ python3 -m http.server 8000   # y abre http://localhost:8000
 | **Plan** | Eliges **3, 4 o 5 días** y la app monta el programa: Superior / Inferior / Full body (3), Torso / Pierna ×2 (4), o Empuje / Tirón / Pierna + Full body / Pierna (5). Gráfica de **equilibrio semanal** (series por grupo frente al rango recomendado). Puedes editar series y repeticiones, cambiar, añadir, quitar y reordenar ejercicios. |
 | **Progreso** | 1RM estimado por ejercicio (Epley), volumen semanal, equilibrio real de los últimos 7 días y un mapa de constancia de 20 semanas. Cada gráfica tiene su tabla de datos. |
 | **Historial** | Todas tus sesiones con detalle de series, récords (PR) y notas. |
-| **Ajustes** | Nombre, peso, **nivel de caña** (Motivador / Duro / Sin piedad), sonido, exportar e importar una copia en JSON, y borrar los datos, instalar la app y ver su estado (instalada, lista sin conexión, datos protegidos). |
+| **Ajustes** | Nombre, peso, **nivel de caña** (Motivador / Duro / Sin piedad), sonido, exportar e importar una copia en JSON, borrar los datos, instalar la app y ver su estado (instalada, lista sin conexión, datos protegidos). |
 
 ## Estructura
 ```
