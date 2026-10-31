@@ -33,6 +33,38 @@
     $('#topbar-right').innerHTML =
       (streak ? `<span class="pill" title="Semanas seguidas cumpliendo objetivo">🔥 ${streak} sem</span>` : '') +
       `<span class="pill accent" title="Sesiones esta semana">${w.done}/${w.target} esta semana</span>`;
+    if (!GM.pwa.online()) $('#topbar-right').insertAdjacentHTML('afterbegin', '<span class="pill offline" title="Todo se guarda en el móvil">📴 Sin conexión</span>');
+  }
+
+  /* ---------------- Instalación de la app ---------------- */
+  function iosSteps() {
+    return `<ol class="steps">
+      <li>Abre esta página en <b>Safari</b>.</li>
+      <li>Pulsa el botón <b>Compartir</b> <span class="ios-share">⬆︎</span> de la barra inferior.</li>
+      <li>Elige <b>"Añadir a pantalla de inicio"</b> y confirma con <b>Añadir</b>.</li>
+      <li>Abre GimnasioMike desde el icono nuevo: pantalla completa y sin conexión.</li>
+    </ol>`;
+  }
+
+  function installCardHTML(compact) {
+    const mode = GM.pwa.installMode();
+    if (mode === 'installed') return '';
+    if (compact && (localStorage.getItem('gm.installDismissed') || mode === 'unsupported' || mode === 'manual')) return '';
+    const sub = {
+      prompt: 'Instálala en tu móvil: icono propio, pantalla completa y funciona sin cobertura en el gimnasio.',
+      ios: 'Añádela a tu pantalla de inicio y funcionará como una app, incluso sin cobertura.',
+      manual: 'En el menú del navegador (⋮) elige "Instalar aplicación" o "Añadir a pantalla de inicio".',
+      unsupported: 'Para instalarla y usarla sin conexión, ábrela desde su dirección web (https), no como archivo local.'
+    }[mode];
+    const btn = mode === 'prompt' ? '<button class="btn primary sm" data-action="install">Instalar</button>'
+      : mode === 'ios' ? '<button class="btn primary sm" data-action="ios-help">Cómo</button>' : '';
+    return `<section class="card">
+      <div class="install-card"><img src="icons/icon-192.png" alt="">
+        <div class="info"><b>Lleva a tu coach en el bolsillo</b><div class="muted" style="font-size:13px">${sub}</div></div>
+        ${btn}
+      </div>
+      ${compact ? '<div style="text-align:right;margin-top:6px"><button class="btn-ghost sm" data-action="install-dismiss">Ahora no</button></div>' : ''}
+    </section>`;
   }
 
   function openModal(title, html) {
@@ -115,6 +147,7 @@
     const groups = S.dayGroups(nextId);
 
     view.innerHTML = `
+      ${installCardHTML(true)}
       <section class="card coach-hero">
         <div class="coach-line">
           <div class="coach-avatar">🔥</div>
@@ -631,7 +664,19 @@
           <button class="btn danger" data-action="reset">🗑️ Borrar todo</button>
         </div>
       </section>
-      <p class="muted" style="text-align:center;font-size:12px">GimnasioMike · boceto v0.1</p>`;
+      <div class="section-title">App</div>
+      ${installCardHTML(false)}
+      <section class="card">
+        <div class="card-head"><h3>Estado</h3></div>
+        <table class="data"><tbody>
+          <tr><td>Instalada</td><td class="n">${GM.pwa.isStandalone() ? '✅ Sí' : '— No'}</td></tr>
+          <tr><td>Lista para usar sin conexión</td><td class="n">${navigator.serviceWorker && navigator.serviceWorker.controller ? '✅ Sí' : GM.pwa.canSW ? '⏳ Preparando…' : '❌ No (abre la versión web)'}</td></tr>
+          <tr><td>Datos protegidos frente a limpiezas del navegador</td><td class="n">${GM.pwa.state.persisted ? '✅ Sí' : '⚠️ No garantizado'}</td></tr>
+          <tr><td>Conexión</td><td class="n">${GM.pwa.online() ? '🟢 En línea' : '📴 Sin conexión'}</td></tr>
+        </tbody></table>
+        <p class="muted" style="font-size:12.5px;margin:10px 0 0">Tus entrenamientos se guardan en este móvil. Exporta una copia de vez en cuando por si lo cambias o lo pierdes.</p>
+      </section>
+      <p class="muted" style="text-align:center;font-size:12px">GimnasioMike · v0.2</p>`;
   }
 
   /* ================================================================
@@ -663,6 +708,7 @@
       case 'start':
         if (a) { closeModal(); return go('hoy'); }
         S.startSession(d.day); closeModal(); go('hoy');
+        GM.pwa.keepAwake(true);
         GM.coach.shout('start');
         break;
       case 'pick-day': {
@@ -699,11 +745,11 @@
         openModal('¿Abandonar?', `<p>¿Te vas a rajar, ${esc(S.state.profile.name)}? Se perderá lo que llevas de sesión.</p>
           <div class="grid-2"><button class="btn primary" data-close>¡Sigo! 💪</button><button class="btn danger" data-action="cancel-confirm">Abandonar</button></div>`);
         break;
-      case 'cancel-confirm': S.cancelSession(); rest.stop(); closeModal(); go('hoy'); break;
+      case 'cancel-confirm': S.cancelSession(); rest.stop(); GM.pwa.keepAwake(false); closeModal(); go('hoy'); break;
       case 'finish': finishSession(); break;
       case 'finish-confirm': {
         const notes = ($('#finish-notes') || {}).value || '';
-        lastFinish = S.finishSession(notes); rest.stop(); closeModal(); go('hoy');
+        lastFinish = S.finishSession(notes); rest.stop(); GM.pwa.keepAwake(false); closeModal(); go('hoy');
         break;
       }
       case 'finish-close': lastFinish = null; go('hoy'); break;
@@ -750,6 +796,14 @@
       case 'delete-session':
         if (confirm('¿Eliminar esta sesión del historial?')) { S.deleteSession(d.id); closeModal(); render(); }
         break;
+
+      // App
+      case 'install':
+        GM.pwa.promptInstall().then(() => render());
+        break;
+      case 'install-dismiss': localStorage.setItem('gm.installDismissed', '1'); render(); break;
+      case 'ios-help': openModal('Instalar en iPhone', iosSteps()); break;
+      case 'apply-update': GM.pwa.applyUpdate(); break;
 
       // Ajustes
       case 'set-intensity':
@@ -802,6 +856,13 @@
 
   let rz;
   window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => tab === 'progreso' && render(), 200); });
+
+  // refresca la interfaz cuando cambia la conexión o la instalación (sin interrumpir una sesión)
+  GM.pwa.onChange(() => {
+    updateTopbar();
+    if (!S.state.active && (tab === 'hoy' || tab === 'ajustes') && $('#modal').hidden) render();
+  });
+  if (S.state.active) GM.pwa.keepAwake(true);
 
   render();
 })();

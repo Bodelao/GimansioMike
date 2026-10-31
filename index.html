@@ -4,11 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#121211">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GimnasioMike">
+  <meta name="description" content="Tu entrenador personal: rutinas, calentamientos, registro de series y progreso.">
   <title>GimnasioMike · Tu entrenador personal</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -26,6 +31,12 @@
     <button class="btn-ghost sm" data-rest="-15">−15</button>
     <button class="btn-ghost sm" data-rest="+15">+15</button>
     <button class="btn-ghost sm" data-rest="skip">Saltar</button>
+  </div>
+
+  <!-- Aviso de nueva versión -->
+  <div id="update-bar" class="update-bar" hidden>
+    <span>🚀 Nueva versión disponible</span>
+    <button class="btn primary sm" data-action="apply-update">Actualizar</button>
   </div>
 
   <!-- Bocadillo del coach -->
@@ -54,6 +65,7 @@
   <script src="js/store.js"></script>
   <script src="js/coach.js"></script>
   <script src="js/charts.js"></script>
+  <script src="js/pwa.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
