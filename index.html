@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#121211">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GimnasioMike">
+  <meta name="description" content="Tu entrenador personal: rutinas, calentamientos, registro de series y progreso.">
+  <title>GimnasioMike · Tu entrenador personal</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">GM</span><span>Gimnasio<b>Mike</b></span></div>
+    <div class="topbar-right" id="topbar-right"></div>
+  </header>
+
+  <main id="view" class="view" aria-live="polite"></main>
+
+  <!-- Temporizador de descanso -->
+  <div id="rest-timer" class="rest-timer" hidden>
+    <div class="rest-ring"><svg viewBox="0 0 44 44"><circle class="bg" cx="22" cy="22" r="19"/><circle class="fg" cx="22" cy="22" r="19"/></svg><span id="rest-time">0:00</span></div>
+    <div class="rest-info"><small>Descanso</small><b id="rest-label">Recupera</b></div>
+    <button class="btn-ghost sm" data-rest="-15">−15</button>
+    <button class="btn-ghost sm" data-rest="+15">+15</button>
+    <button class="btn-ghost sm" data-rest="skip">Saltar</button>
+  </div>
+
+  <!-- Aviso de nueva versión -->
+  <div id="update-bar" class="update-bar" hidden>
+    <span>🚀 Nueva versión disponible</span>
+    <button class="btn primary sm" data-action="apply-update">Actualizar</button>
+  </div>
+
+  <!-- Bocadillo del coach -->
+  <div id="coach-toast" class="coach-toast" role="status">
+    <div class="coach-avatar">🔥</div>
+    <div class="coach-toast-text"></div>
+  </div>
+
+  <!-- Modal genérico -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head"><h3 id="modal-title"></h3><button class="icon-btn" data-close aria-label="Cerrar">✕</button></div>
+      <div id="modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <nav class="tabbar">
+    <button data-tab="hoy" class="active"><span class="ti">⚡</span>Hoy</button>
+    <button data-tab="plan"><span class="ti">📋</span>Plan</button>
+    <button data-tab="progreso"><span class="ti">📈</span>Progreso</button>
+    <button data-tab="historial"><span class="ti">🗓️</span>Historial</button>
+    <button data-tab="ajustes"><span class="ti">⚙️</span>Ajustes</button>
+  </nav>
+
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/coach.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/pwa.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
