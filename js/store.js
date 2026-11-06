@@ -12,7 +12,7 @@ GM.store = {
   defaults() {
     return {
       version: 1,
-      profile: { name: 'Mike', days: 4, intensity: 2, bodyweight: null, sound: true },
+      profile: { name: 'Mike', days: 4, intensity: 2, bodyweight: null, sound: true, theme: { mode: 'dark', accent: 'naranja' } },
       overrides: {},     // { exId: { sets, reps } }  ← series/reps personalizadas
       dayCustom: {},     // { dayId: [exId, ...] }    ← ejercicios personalizados por día
       sessions: [],      // histórico de entrenamientos

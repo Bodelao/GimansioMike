@@ -17,6 +17,13 @@
   let lastFinish = null;      // resultado de la última sesión terminada
 
   /* ---------------- Utilidades de UI ---------------- */
+  const videoUrl = name => `https://www.youtube.com/results?search_query=${encodeURIComponent(name + ' técnica correcta')}`;
+  const videoBtn = name => `<a class="btn-ghost sm video-link" href="${videoUrl(name)}" target="_blank" rel="noopener">▶ Ver vídeo</a>`;
+  /* Fila de calentamiento con su animación (pulsa la animación para verla en grande) */
+  const warmRow = (w, gkey, lead = '') => `<div class="warm-item">${lead}
+      <div style="flex:1;min-width:0"><b>${w.name}</b><div class="muted" style="font-size:13px">${w.detail}</div></div>
+      ${w.anim ? `<button class="warm-anim" data-action="tech" data-key="${w.anim}" data-group="${gkey || ''}" data-title="${esc(w.name)}" data-detail="${esc(w.detail)}" aria-label="Ver ${esc(w.name)} en grande">${GM.anim.html(w.anim, gkey, 'mini')}</button>` : ''}
+    </div>`;
   const groupChip = g => `<span class="chip"><i style="background:${GM.GROUPS[g].color}"></i>${GM.GROUPS[g].name}</span>`;
   const scheme = ex => `${ex.sets}×${ex.reps}${ex.unit === 'seg' ? ' s' : ''}`;
 
@@ -71,6 +78,7 @@
     $('#modal-title').textContent = title;
     $('#modal-body').innerHTML = html;
     $('#modal').hidden = false;
+    GM.anim.scan($('#modal'));
   }
   function closeModal() { $('#modal').hidden = true; }
 
@@ -205,8 +213,8 @@
     const firstCompound = a.exercises.find(e => GM.EXERCISES[e.exId].type === 'compuesto');
 
     const warmItems = [
-      ...GM.WARMUP_GENERAL.map((w, i) => ({ key: 'g' + i, group: 'General', ...w })),
-      ...groups.flatMap(g => GM.WARMUP_BY_GROUP[g].map((w, i) => ({ key: g + i, group: GM.GROUPS[g].name, ...w })))
+      ...GM.WARMUP_GENERAL.map((w, i) => ({ key: 'g' + i, group: 'General', gkey: '', ...w })),
+      ...groups.flatMap(g => GM.WARMUP_BY_GROUP[g].map((w, i) => ({ key: g + i, group: GM.GROUPS[g].name, gkey: g, ...w })))
     ];
     const warmDone = warmItems.filter(w => a.warmupDone[w.key]).length;
     let lastGroup = '';
@@ -229,8 +237,7 @@
         ${warmItems.map(w => {
           const head = w.group !== lastGroup ? `<div class="warm-group">${w.group}</div>` : '';
           lastGroup = w.group;
-          return `${head}<div class="warm-item"><button class="check ${a.warmupDone[w.key] ? 'on' : ''}" data-action="warm" data-key="${w.key}" aria-label="Marcar">✓</button>
-            <div><b>${w.name}</b><div class="muted" style="font-size:13px">${w.detail}</div></div></div>`;
+          return head + warmRow(w, w.gkey, `<button class="check ${a.warmupDone[w.key] ? 'on' : ''}" data-action="warm" data-key="${w.key}" aria-label="Marcar">✓</button>`);
         }).join('')}
         ${firstCompound ? `<div class="warm-group">Series de aproximación · ${GM.EXERCISES[firstCompound.exId].name}</div>
           <ol class="ramp">${GM.RAMP_UP.map(r => {
@@ -245,6 +252,7 @@
       <button class="btn block" data-action="add-ex-session">+ Añadir ejercicio</button>
       <button class="btn primary block lg" data-action="finish">Terminar entrenamiento 🏁</button>`;
     tickElapsed();
+    GM.anim.scan(view);
   }
 
   function exerciseCard(e, ei) {
@@ -263,7 +271,13 @@
           <div class="scheme" style="color:var(--accent);font-weight:800">${scheme(ex)}</div>
           <button class="icon-btn" data-action="ex-menu" data-ei="${ei}" aria-label="Opciones">⋯</button>
         </div>
-        <div class="tip">💡 ${ex.tip} <span class="muted">· Descanso ${ex.rest}s</span></div>
+        <div class="ex-visual">
+          <button class="anim-btn" data-action="tech" data-key="${e.exId}" data-group="${ex.group}" data-title="${esc(ex.name)}" data-detail="${esc(ex.tip)}" aria-label="Ver la técnica en grande">${GM.anim.html(e.exId, ex.group)}</button>
+          <div class="ex-visual-txt">
+            <div class="tip">💡 ${ex.tip} <span class="muted">· Descanso ${ex.rest}s</span></div>
+            ${videoBtn(ex.name)}
+          </div>
+        </div>
         <div class="sug ${sug.up ? 'up' : ''}">🎯 ${sug.text}</div>
         <table class="set-table">
           <thead><tr><th>#</th><th>Anterior</th><th>Kg</th><th>${unitLbl}</th><th></th></tr></thead>
@@ -432,8 +446,10 @@
     const best = S.bestE1RM(id);
     const last = S.lastPerformance(id);
     openModal(ex.name, `
+      ${GM.anim.html(id, ex.group, 'big')}
       <div class="chips">${groupChip(ex.group)}${(ex.secondary || []).map(groupChip).join('')}</div>
       <div class="tip" style="font-size:13px;color:var(--text-2)">💡 ${ex.tip}</div>
+      ${videoBtn(ex.name)}
       <div class="grid-2">
         <label class="field">Series<input id="ed-sets" class="input" type="number" min="1" max="10" value="${ex.sets}"></label>
         <label class="field">${ex.unit === 'seg' ? 'Segundos' : 'Repeticiones'} (rango)<input id="ed-reps" class="input" value="${ex.reps}" placeholder="8-12"></label>
@@ -460,6 +476,7 @@
       <div class="ex-list">${Object.entries(GM.EXERCISES).filter(([, e]) => e.group === g).map(([id]) => {
         const e = S.exercise(id);
         return `<div class="ex-item" style="cursor:pointer" data-action="pick-ex" data-id="${id}" data-ctx="${esc(JSON.stringify(ctx))}">
+          <div class="thumb">${GM.anim.html(id, e.group, 'mini')}</div>
           <div class="info"><div class="name">${e.name}</div><div class="meta">${e.type}</div></div><div class="scheme">${scheme(e)}</div></div>`;
       }).join('')}</div>`).join(''));
   }
@@ -468,9 +485,9 @@
     const groups = S.dayGroups(dayId);
     openModal('Calentamiento · ' + GM.DAY_TEMPLATES[dayId].name, `
       <div class="warm-group">General (8-10 min)</div>
-      ${GM.WARMUP_GENERAL.map(w => `<div class="warm-item"><div><b>${w.name}</b><div class="muted" style="font-size:13px">${w.detail}</div></div></div>`).join('')}
+      ${GM.WARMUP_GENERAL.map(w => warmRow(w, '')).join('')}
       ${groups.map(g => `<div class="warm-group">${GM.GROUPS[g].name}</div>
-        ${GM.WARMUP_BY_GROUP[g].map(w => `<div class="warm-item"><div><b>${w.name}</b><div class="muted" style="font-size:13px">${w.detail}</div></div></div>`).join('')}`).join('')}
+        ${GM.WARMUP_BY_GROUP[g].map(w => warmRow(w, g)).join('')}`).join('')}
       <div class="warm-group">Series de aproximación (primer compuesto)</div>
       <ol class="ramp">${GM.RAMP_UP.map(r => `<li>${r.label} × ${r.reps}</li>`).join('')}</ol>`);
   }
@@ -585,7 +602,7 @@
       cells += `<div class="${lvl}" title="${GM.fmtDate(d)}${v ? ' · ' + GM.fmtNum(v) + ' kg' : ''}"></div>`;
     }
     return `<div class="heat-wrap"><div class="heat-days">${DAY_LETTERS.map((l, i) => `<span>${i % 2 === 0 ? l : ''}</span>`).join('')}</div><div class="heat">${cells}</div></div>
-      <div class="legend"><span>Menos</span><span class="row" style="gap:3px"><i class="sw" style="background:var(--surface-2)"></i><i class="sw" style="background:rgba(255,107,44,.35)"></i><i class="sw" style="background:rgba(255,107,44,.65)"></i><i class="sw" style="background:var(--accent)"></i></span><span>Más volumen</span></div>`;
+      <div class="legend"><span>Menos</span><span class="row" style="gap:3px"><i class="sw" style="background:var(--surface-2)"></i><i class="sw" style="background:color-mix(in srgb, var(--accent) 35%, transparent)"></i><i class="sw" style="background:color-mix(in srgb, var(--accent) 65%, transparent)"></i><i class="sw" style="background:var(--accent)"></i></span><span>Más volumen</span></div>`;
   }
 
   /* ================================================================
@@ -643,6 +660,17 @@
         </div>
       </section>
       <section class="card">
+        <div class="card-head"><h3>🎨 Tema</h3><small>${GM.theme.MODES[GM.theme.current().mode]}</small></div>
+        <div class="seg">${Object.entries(GM.theme.MODES).map(([k, n]) => `<button class="${GM.theme.current().mode === k ? 'on' : ''}" data-action="set-mode" data-mode="${k}">${n}</button>`).join('')}</div>
+        <div class="swatches" role="radiogroup" aria-label="Color de acento">
+          ${Object.entries(GM.theme.ACCENTS).map(([k, a]) => {
+            const on = GM.theme.current().accent === k;
+            return `<button class="swatch ${on ? 'on' : ''}" role="radio" aria-checked="${on}" data-action="set-accent" data-accent="${k}" title="${a.name}">
+              <i style="background:${a[GM.theme.resolvedMode()]}"></i><span>${a.name}</span></button>`;
+          }).join('')}
+        </div>
+      </section>
+      <section class="card">
         <div class="card-head"><h3>Nivel de caña del coach</h3></div>
         <div class="seg">${[1, 2, 3].map(l => `<button class="${p.intensity === l ? 'on' : ''}" data-action="set-intensity" data-l="${l}">${INTENSITY[l]}</button>`).join('')}</div>
         <p class="muted" style="font-size:13px;margin:10px 0 0">"${esc(GM.coach.say('welcome'))}"</p>
@@ -686,6 +714,7 @@
     document.querySelectorAll('.tabbar button').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
     ({ hoy: renderHoy, plan: renderPlan, progreso: renderProgreso, historial: renderHistorial, ajustes: renderAjustes })[tab]();
     updateTopbar();
+    GM.anim.scan(view);
   }
   function go(t) { tab = t; window.scrollTo(0, 0); render(); }
 
@@ -797,6 +826,15 @@
         if (confirm('¿Eliminar esta sesión del historial?')) { S.deleteSession(d.id); closeModal(); render(); }
         break;
 
+      // Técnica y tema
+      case 'tech':
+        openModal(d.title, `${GM.anim.html(d.key, d.group, 'big')}
+          <div class="tip" style="font-size:14px;color:var(--text-2)">💡 ${esc(d.detail)}</div>
+          ${videoBtn(d.title)}`);
+        break;
+      case 'set-mode': GM.theme.set({ mode: d.mode }); render(); break;
+      case 'set-accent': GM.theme.set({ accent: d.accent }); render(); break;
+
       // App
       case 'install':
         GM.pwa.promptInstall().then(() => render());
@@ -863,6 +901,8 @@
     if (!S.state.active && (tab === 'hoy' || tab === 'ajustes') && $('#modal').hidden) render();
   });
   if (S.state.active) GM.pwa.keepAwake(true);
+  GM.theme.apply();
+  document.addEventListener('gm:theme', () => { if (!S.state.active) render(); });
 
   render();
 })();

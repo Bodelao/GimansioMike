@@ -1,7 +1,7 @@
 # GimnasioMike 🔥
 **Tu entrenador personal.** Te organiza la semana, te calienta, te registra cada serie y te mete caña.
 
-> v0.2: app web instalable (PWA) que **funciona sin conexión**. Sin dependencias ni compilación.
+> v0.3: app web instalable (PWA) que **funciona sin conexión**, con **animaciones de técnica** para cada ejercicio y calentamiento, y **temas** a elegir. Sin dependencias ni compilación.
 
 ## 📱 Instalarla en el móvil
 
@@ -23,7 +23,7 @@ Desde ese momento se abre a pantalla completa desde su icono y **funciona sin co
 - Durante el entrenamiento **la pantalla no se apaga** (Wake Lock).
 - Cuando publiques cambios, la app muestra **"Nueva versión disponible → Actualizar"**.
 
-> ⚠️ **Al cambiar cualquier archivo, sube `VERSION` en `sw.js`** (por ejemplo `gm-v0.2.1`). Si no, los móviles seguirán usando la versión guardada.
+> ⚠️ **Al cambiar cualquier archivo, sube `VERSION` en `sw.js`** (por ejemplo `gm-v0.3.1`). Si no, los móviles seguirán usando la versión guardada.
 
 ### Probar en local
 ```bash
@@ -41,7 +41,8 @@ python3 -m http.server 8000   # y abre http://localhost:8000
 | **Plan** | Eliges **3, 4 o 5 días** y la app monta el programa: Superior / Inferior / Full body (3), Torso / Pierna ×2 (4), o Empuje / Tirón / Pierna + Full body / Pierna (5). Gráfica de **equilibrio semanal** (series por grupo frente al rango recomendado). Puedes editar series y repeticiones, cambiar, añadir, quitar y reordenar ejercicios. |
 | **Progreso** | 1RM estimado por ejercicio (Epley), volumen semanal, equilibrio real de los últimos 7 días y un mapa de constancia de 20 semanas. Cada gráfica tiene su tabla de datos. |
 | **Historial** | Todas tus sesiones con detalle de series, récords (PR) y notas. |
-| **Ajustes** | Nombre, peso, **nivel de caña** (Motivador / Duro / Sin piedad), sonido, exportar e importar una copia en JSON, borrar los datos, instalar la app y ver su estado (instalada, lista sin conexión, datos protegidos). |
+| **Técnica** | Cada ejercicio y cada ejercicio de calentamiento tiene una **animación** que muestra el movimiento y resalta el músculo que trabaja. Pulsa la animación para verla en grande. El botón **Ver vídeo** busca vídeos de técnica en YouTube (necesita conexión). |
+| **Ajustes** | **Tema** (oscuro, claro o automático + 6 colores de acento), nombre, peso, **nivel de caña** (Motivador / Duro / Sin piedad), sonido, exportar e importar una copia en JSON, borrar los datos, instalar la app y ver su estado (instalada, lista sin conexión, datos protegidos). |
 
 ## Estructura
 ```
@@ -53,7 +54,9 @@ css/styles.css    Estilos (modo oscuro, pensado primero para el móvil)
 js/data.js        Ejercicios, grupos, calentamientos, plantillas y programas  ← edítalo para personalizar
 js/store.js       Persistencia (localStorage) y analítica: PRs, sugerencias, balance
 js/coach.js       Frases del coach por momento y nivel de intensidad
-js/charts.js      Gráficas en canvas (sin librerías)
+js/charts.js      Gráficas en canvas (sin librerías), con los colores del tema
+js/anim.js        Animaciones de técnica: figura articulada en SVG y poses de cada ejercicio
+js/theme.js       Temas: modo oscuro/claro/automático y color de acento
 js/pwa.js         Instalación, actualizaciones, pantalla encendida, almacenamiento persistente
 js/app.js         Vistas y eventos
 ```
@@ -62,5 +65,5 @@ js/app.js         Vistas y eventos
 - Empaquetarla como app nativa para las tiendas (Capacitor / TWA) y avisos de fin de descanso con la pantalla bloqueada.
 - Sincronización en la nube o entre dispositivos.
 - Periodización (semanas de descarga automáticas) y RPE/RIR por serie.
-- Vídeos o GIFs de técnica por ejercicio.
+- Vídeos propios grabados en el gimnasio para los ejercicios clave.
 - Medidas corporales y fotos de progreso.
