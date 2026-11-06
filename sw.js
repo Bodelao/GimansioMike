@@ -1,9 +1,9 @@
 /* ==========================================================================
-   GimnasioMike · Service Worker
+   Carmaikel Fitness · Service Worker
    Guarda la app en el móvil para que funcione SIN CONEXIÓN en el gimnasio.
    ⚠️ Sube VERSION cada vez que cambies cualquier archivo de la app.
    ========================================================================== */
-const VERSION = 'gm-v0.3.0';
+const VERSION = 'gm-v0.4.0';
 const ASSETS = [
   './',
   './index.html',
@@ -17,7 +17,8 @@ const ASSETS = [
   './js/theme.js',
   './js/pwa.js',
   './js/app.js',
-  './icon.svg',
+  './img/coach.jpg',
+  './icons/favicon-32.png',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/maskable-512.png',

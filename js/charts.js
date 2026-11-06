@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GimnasioMike · Gráficas (canvas, sin dependencias externas)
+   Carmaikel Fitness · Gráficas (canvas, sin dependencias externas)
    Barras y líneas de una sola serie con tooltip al pasar/tocar.
    ========================================================================== */
 window.GM = window.GM || {};

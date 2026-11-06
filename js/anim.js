@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GimnasioMike · Animaciones de técnica
+   Carmaikel Fitness · Animaciones de técnica
    Figura articulada en SVG (sin vídeos externos: funciona sin conexión).
    Cada animación es una lista de poses clave; la figura se interpola entre
    ellas y resalta el músculo objetivo con el color del tema.
