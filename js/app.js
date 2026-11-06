@@ -158,7 +158,7 @@
       ${installCardHTML(true)}
       <section class="card coach-hero">
         <div class="coach-line">
-          <div class="coach-avatar">🔥</div>
+          <img class="coach-avatar lg" src="img/coach.jpg" alt="Tu coach" width="64" height="64">
           <div><div class="coach-name">Tu coach · modo ${INTENSITY[p.intensity]}</div>
           <div class="coach-quote">${esc(coachMsg)}</div></div>
         </div>
