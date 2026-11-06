@@ -9,7 +9,7 @@
 Para instalar la app y usarla sin conexión hace falta HTTPS, y GitHub Pages lo da gratis.
 1. En GitHub: **Settings → Pages**.
 2. En *Build and deployment*: **Source = Deploy from a branch**, **Branch = `main`**, carpeta **`/ (root)`** y **Save**.
-3. En 1-2 minutos estará en **https://bodelao.github.io/GimansioMike/**
+3. En 1-2 minutos estará en **https://bodelao.github.io/GimnasioMike/**
 
 ### 2. Instalarla
 - **Android (Chrome):** abre la dirección y pulsa **Instalar** en la tarjeta de la pantalla *Hoy* o en *Ajustes*. Si no aparece, usa el menú ⋮ → *Instalar aplicación*.
