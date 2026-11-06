@@ -3,7 +3,7 @@
    Guarda la app en el móvil para que funcione SIN CONEXIÓN en el gimnasio.
    ⚠️ Sube VERSION cada vez que cambies cualquier archivo de la app.
    ========================================================================== */
-const VERSION = 'gm-v0.2.0';
+const VERSION = 'gm-v0.3.0';
 const ASSETS = [
   './',
   './index.html',
@@ -13,6 +13,8 @@ const ASSETS = [
   './js/store.js',
   './js/coach.js',
   './js/charts.js',
+  './js/anim.js',
+  './js/theme.js',
   './js/pwa.js',
   './js/app.js',
   './icon.svg',

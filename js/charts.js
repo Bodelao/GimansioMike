@@ -5,16 +5,25 @@
 window.GM = window.GM || {};
 
 GM.charts = (() => {
-  const C = {
-    mark: '#d95926',       // serie (naranja validado para fondo oscuro)
-    markSoft: 'rgba(217,89,38,0.18)',
-    grid: 'rgba(255,255,255,0.07)',
-    axis: '#8b8a85',
-    text: '#c3c2b7',
-    surface: '#1a1a19'
+  /* Colores leídos del tema activo (variables CSS) en cada dibujo */
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const rgba = (hex, a) => {
+    const h = hex.replace('#', '');
+    const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
+    return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
   };
+  const C = {};
+  function refreshColors() {
+    const mark = css('--chart') || '#d95926', text = css('--text') || '#f0efec';
+    Object.assign(C, {
+      mark, markSoft: rgba(mark, 0.28), areaTop: rgba(mark, 0.22), areaBottom: rgba(mark, 0),
+      grid: css('--line') || 'rgba(255,255,255,0.08)', axis: css('--muted') || '#8b8a85',
+      text: css('--text-2') || '#c3c2b7', surface: css('--surface') || '#1a1a19', cross: rgba(text, 0.25)
+    });
+  }
 
   function setup(canvas, height) {
+    refreshColors();
     const dpr = window.devicePixelRatio || 1;
     const w = canvas.parentElement.clientWidth;
     canvas.style.width = w + 'px';
@@ -156,7 +165,7 @@ GM.charts = (() => {
       values.forEach((v, i) => (i ? ctx.lineTo(xs[i], scaleY(v)) : ctx.moveTo(xs[i], scaleY(v))));
       ctx.lineTo(xs[n - 1], h - pad.b); ctx.lineTo(xs[0], h - pad.b); ctx.closePath();
       const grd = ctx.createLinearGradient(0, pad.t, 0, h - pad.b);
-      grd.addColorStop(0, 'rgba(217,89,38,0.22)'); grd.addColorStop(1, 'rgba(217,89,38,0)');
+      grd.addColorStop(0, C.areaTop); grd.addColorStop(1, C.areaBottom);
       ctx.fillStyle = grd; ctx.fill();
       // línea 2px
       ctx.beginPath();
@@ -164,7 +173,7 @@ GM.charts = (() => {
       ctx.strokeStyle = C.mark; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.stroke();
       // crosshair
       if (canvas._hover >= 0) {
-        ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 1;
+        ctx.strokeStyle = C.cross; ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(xs[canvas._hover], pad.t); ctx.lineTo(xs[canvas._hover], h - pad.b); ctx.stroke();
       }
       // marcadores (anillo del color de fondo)

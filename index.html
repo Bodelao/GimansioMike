@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-mode="dark" data-accent="naranja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -15,6 +15,15 @@
   <link rel="icon" href="icons/icon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="stylesheet" href="css/styles.css">
+  <script>
+    /* Aplica el tema guardado antes de pintar (evita un destello de colores) */
+    try {
+      var t = ((JSON.parse(localStorage.getItem('gimnasioMike.v1') || '{}').profile) || {}).theme || {};
+      var m = t.mode === 'auto' ? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark') : (t.mode || 'dark');
+      document.documentElement.dataset.mode = m;
+      document.documentElement.dataset.accent = t.accent || 'naranja';
+    } catch (e) {}
+  </script>
 </head>
 <body>
   <header class="topbar">
@@ -65,6 +74,8 @@
   <script src="js/store.js"></script>
   <script src="js/coach.js"></script>
   <script src="js/charts.js"></script>
+  <script src="js/anim.js"></script>
+  <script src="js/theme.js"></script>
   <script src="js/pwa.js"></script>
   <script src="js/app.js"></script>
 </body>

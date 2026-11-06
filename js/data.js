@@ -90,37 +90,37 @@ GM.EXERCISES = {
 
 /* ---------- Calentamientos ---------- */
 GM.WARMUP_GENERAL = [
-  { name: 'Cardio suave', detail: '5-8 min de bici, remo o elíptica subiendo pulsaciones progresivamente.' },
-  { name: 'Movilidad articular', detail: 'Círculos de cuello, hombros, muñecas, cadera, rodillas y tobillos: 10 por lado.' }
+  { name: 'Cardio suave', anim: 'w_cardio', detail: '5-8 min de bici, remo o elíptica subiendo pulsaciones progresivamente.' },
+  { name: 'Movilidad articular', anim: 'w_movilidad', detail: 'Círculos de cuello, hombros, muñecas, cadera, rodillas y tobillos: 10 por lado.' }
 ];
 
 GM.WARMUP_BY_GROUP = {
-  pecho:      [ { name: 'Rotaciones de hombro con banda', detail: '2×15 rotaciones externas' },
-                { name: 'Flexiones escapulares', detail: '2×10 activando serrato' },
-                { name: 'Flexiones lentas', detail: '1×10-15 a ritmo controlado' } ],
-  espalda:    [ { name: 'Pull-apart con banda', detail: '2×15 juntando escápulas' },
-                { name: 'Colgarse de la barra', detail: '2×20-30 s, descompresión activa' },
-                { name: 'Gato-camello', detail: '10 repeticiones lentas' } ],
-  hombros:    [ { name: 'Dislocaciones con pica/banda', detail: '2×10 con agarre amplio' },
-                { name: 'Y-T-W en banco inclinado', detail: '1×8 de cada letra sin peso o 1 kg' },
-                { name: 'Rotación externa con banda', detail: '2×12 por brazo' } ],
-  biceps:     [ { name: 'Curl ligero con banda', detail: '1×20 bombeando sangre' },
-                { name: 'Estiramiento dinámico de muñeca', detail: '30 s flexión/extensión' } ],
-  triceps:    [ { name: 'Extensión ligera con banda', detail: '1×20 sin bloquear brusco' },
-                { name: 'Círculos de codo', detail: '10 por lado' } ],
-  cuadriceps: [ { name: 'Sentadilla goblet ligera', detail: '2×10 con pausa abajo' },
-                { name: 'Balanceos de pierna frontales', detail: '10 por pierna' },
-                { name: 'Movilidad de tobillo a la pared', detail: '10 por lado' } ],
-  isquios:    [ { name: 'Buenos días sin carga', detail: '2×12 con bisagra de cadera' },
-                { name: 'Balanceos laterales de pierna', detail: '10 por pierna' },
-                { name: 'Puente de isquios', detail: '1×12' } ],
-  gluteos:    [ { name: 'Puente de glúteo', detail: '2×15 con pausa arriba' },
-                { name: 'Monster walk con banda', detail: '2×10 pasos por lado' },
-                { name: 'Apertura 90/90 de cadera', detail: '8 cambios por lado' } ],
-  gemelos:    [ { name: 'Elevaciones de talón sin peso', detail: '1×20 rango completo' },
-                { name: 'Saltos suaves a la comba', detail: '30-60 s' } ],
-  core:       [ { name: 'Dead bug', detail: '2×8 por lado' },
-                { name: 'Bird dog', detail: '1×8 por lado' } ]
+  pecho:      [ { name: 'Rotaciones de hombro con banda', anim: 'w_rot_ext', detail: '2×15 rotaciones externas' },
+                { name: 'Flexiones escapulares', anim: 'w_flex_escap', detail: '2×10 activando serrato' },
+                { name: 'Flexiones lentas', anim: 'w_flexiones', detail: '1×10-15 a ritmo controlado' } ],
+  espalda:    [ { name: 'Pull-apart con banda', anim: 'w_pull_apart', detail: '2×15 juntando escápulas' },
+                { name: 'Colgarse de la barra', anim: 'w_colgarse', detail: '2×20-30 s, descompresión activa' },
+                { name: 'Gato-camello', anim: 'w_gato_camello', detail: '10 repeticiones lentas' } ],
+  hombros:    [ { name: 'Dislocaciones con pica/banda', anim: 'w_dislocaciones', detail: '2×10 con agarre amplio' },
+                { name: 'Y-T-W en banco inclinado', anim: 'w_ytw', detail: '1×8 de cada letra sin peso o 1 kg' },
+                { name: 'Rotación externa con banda', anim: 'w_rot_ext', detail: '2×12 por brazo' } ],
+  biceps:     [ { name: 'Curl ligero con banda', anim: 'w_curl_banda', detail: '1×20 bombeando sangre' },
+                { name: 'Estiramiento dinámico de muñeca', anim: 'w_muneca', detail: '30 s flexión/extensión' } ],
+  triceps:    [ { name: 'Extensión ligera con banda', anim: 'w_ext_banda', detail: '1×20 sin bloquear brusco' },
+                { name: 'Círculos de codo', anim: 'w_circ_codo', detail: '10 por lado' } ],
+  cuadriceps: [ { name: 'Sentadilla goblet ligera', anim: 'w_goblet', detail: '2×10 con pausa abajo' },
+                { name: 'Balanceos de pierna frontales', anim: 'w_balanceo_frontal', detail: '10 por pierna' },
+                { name: 'Movilidad de tobillo a la pared', anim: 'w_tobillo', detail: '10 por lado' } ],
+  isquios:    [ { name: 'Buenos días sin carga', anim: 'w_buenos_dias', detail: '2×12 con bisagra de cadera' },
+                { name: 'Balanceos laterales de pierna', anim: 'w_balanceo_lateral', detail: '10 por pierna' },
+                { name: 'Puente de isquios', anim: 'w_puente_isq', detail: '1×12' } ],
+  gluteos:    [ { name: 'Puente de glúteo', anim: 'w_puente_gluteo', detail: '2×15 con pausa arriba' },
+                { name: 'Monster walk con banda', anim: 'w_monster', detail: '2×10 pasos por lado' },
+                { name: 'Apertura 90/90 de cadera', anim: 'w_9090', detail: '8 cambios por lado' } ],
+  gemelos:    [ { name: 'Elevaciones de talón sin peso', anim: 'w_talones', detail: '1×20 rango completo' },
+                { name: 'Saltos suaves a la comba', anim: 'w_comba', detail: '30-60 s' } ],
+  core:       [ { name: 'Dead bug', anim: 'w_dead_bug', detail: '2×8 por lado' },
+                { name: 'Bird dog', anim: 'w_bird_dog', detail: '1×8 por lado' } ]
 };
 
 /* Series de aproximación para el primer ejercicio compuesto del día */
