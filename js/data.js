@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GimnasioMike · Base de datos de entrenamiento
+   Carmaikel Fitness · Base de datos de entrenamiento
    Grupos musculares, ejercicios, calentamientos y programas semanales.
    ========================================================================== */
 window.GM = window.GM || {};

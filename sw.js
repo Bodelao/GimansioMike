@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GimnasioMike · Service Worker
+   Carmaikel Fitness · Service Worker
    Guarda la app en el móvil para que funcione SIN CONEXIÓN en el gimnasio.
    ⚠️ Sube VERSION cada vez que cambies cualquier archivo de la app.
    ========================================================================== */

@@ -1,7 +1,7 @@
-# GimnasioMike 🔥
+# Carmaikel Fitness 🔥
 **Tu entrenador personal.** Te organiza la semana, te calienta, te registra cada serie y te mete caña.
 
-> v0.3: app web instalable (PWA) que **funciona sin conexión**, con **animaciones de técnica** para cada ejercicio y calentamiento, y **temas** a elegir. Sin dependencias ni compilación.
+> v0.4: app web instalable (PWA) que **funciona sin conexión**, con **animaciones de técnica** para cada ejercicio y calentamiento, y **temas** a elegir. Sin dependencias ni compilación.
 
 ## 📱 Instalarla en el móvil
 

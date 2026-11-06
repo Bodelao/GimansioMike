@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GimnasioMike · Aplicación (vistas y eventos)
+   Carmaikel Fitness · Aplicación (vistas y eventos)
    ========================================================================== */
 (() => {
   const S = GM.store;
@@ -49,7 +49,7 @@
       <li>Abre esta página en <b>Safari</b>.</li>
       <li>Pulsa el botón <b>Compartir</b> <span class="ios-share">⬆︎</span> de la barra inferior.</li>
       <li>Elige <b>"Añadir a pantalla de inicio"</b> y confirma con <b>Añadir</b>.</li>
-      <li>Abre GimnasioMike desde el icono nuevo: pantalla completa y sin conexión.</li>
+      <li>Abre Carmaikel Fitness desde el icono nuevo: pantalla completa y sin conexión.</li>
     </ol>`;
   }
 
@@ -704,7 +704,7 @@
         </tbody></table>
         <p class="muted" style="font-size:12.5px;margin:10px 0 0">Tus entrenamientos se guardan en este móvil. Exporta una copia de vez en cuando por si lo cambias o lo pierdes.</p>
       </section>
-      <p class="muted" style="text-align:center;font-size:12px">GimnasioMike · v0.2</p>`;
+      <p class="muted" style="text-align:center;font-size:12px">Carmaikel Fitness · v0.4</p>`;
   }
 
   /* ================================================================
@@ -851,7 +851,7 @@
         const blob = new Blob([S.exportJSON()], { type: 'application/json' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `gimnasiomike-${new Date().toISOString().slice(0, 10)}.json`;
+        link.download = `carmaikel-fitness-${new Date().toISOString().slice(0, 10)}.json`;
         link.click(); URL.revokeObjectURL(link.href);
         break;
       }

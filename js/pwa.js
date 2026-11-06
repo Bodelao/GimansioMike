@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GimnasioMike · App instalable y sin conexión
+   Carmaikel Fitness · App instalable y sin conexión
    - Registra el service worker (caché offline)
    - Gestiona la instalación (Android/Chrome: botón · iOS: instrucciones)
    - Mantiene la pantalla encendida durante el entrenamiento

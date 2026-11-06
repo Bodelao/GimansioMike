@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GimnasioMike · El Coach
+   Carmaikel Fitness · El Coach
    Frases de motivación según el momento y el nivel de caña elegido.
    Niveles: 1 = Motivador · 2 = Duro · 3 = Sin piedad
    ========================================================================== */

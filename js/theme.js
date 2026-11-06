@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GimnasioMike · Temas
+   Carmaikel Fitness · Temas
    Modo (oscuro / claro / automático) + color de acento.
    ========================================================================== */
 window.GM = window.GM || {};

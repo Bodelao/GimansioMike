@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GimnasioMike · Almacenamiento y analítica
+   Carmaikel Fitness · Almacenamiento y analítica
    Todo se guarda en localStorage (en el navegador). Exportable a JSON.
    ========================================================================== */
 window.GM = window.GM || {};
